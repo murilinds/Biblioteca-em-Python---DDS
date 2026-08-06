@@ -1,1 +1,1 @@
--- Configurando Reposittório --
+-- Configurando Repositório --
