@@ -8,15 +8,24 @@ Ordenar a listagem de livros (por título, autor ou ano)
 Todos cadastram o mesmo tipo de sistema — a diferença vai estar na qualidade da implementação, na organização do código e em como cada um resolveu os detalhes.
 '''
 
-class Biblioteca: ##Commit
+class Biblioteca: ##Commit Para A Classe
     def __init__(self):
         self.livros = {}
 
+    def cadastrar_livro(self, livro):
+        if livro.codigo_isbn in self.livros:
+            return False  
+        self.livros[livro.codigo_isbn] = livro
+        return True
+    
     def listar_livros(self):
         return self.livros
 
-    def buscar_livro(self):
-        pass
+    def buscar_livro(self,titulo,autor):
+        for livro in self.livros.values():
+            if livro.titulo == titulo or livro.autor == autor:
+                return livro
+        return None
         
 
 class Livro:
