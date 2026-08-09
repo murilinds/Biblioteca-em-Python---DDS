@@ -8,6 +8,14 @@ Ordenar a listagem de livros (por título, autor ou ano)
 Todos cadastram o mesmo tipo de sistema — a diferença vai estar na qualidade da implementação, na organização do código e em como cada um resolveu os detalhes.
 '''
 
+class Biblioteca:
+    def __init__(self):
+        self.livros = {}
+
+    def listar_livros(self):
+        return self.livros
+        
+
 class Livro:
     def __init__(self, titulo, autor, ano_publicacao, codigo_isbn):
         self.titulo = titulo
@@ -33,3 +41,9 @@ class Livro:
     
     def __repr__(self):
         return self.__str__()
+
+bb = Biblioteca()
+ll = Livro("O Senhor dos Anéis", "J.R.R. Tolkien", 1954, "978-0261102385")
+bb.livros[ll.codigo_isbn] = ll
+
+print(bb.listar_livros())
