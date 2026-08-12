@@ -8,25 +8,137 @@ Ordenar a listagem de livros (por título, autor ou ano)
 Todos cadastram o mesmo tipo de sistema — a diferença vai estar na qualidade da implementação, na organização do código e em como cada um resolveu os detalhes.
 '''
 
-class Biblioteca: ##Commit Para A Classe
+class Biblioteca: 
     def __init__(self):
         self.livros = {}
 
-    def cadastrar_livro(self, livro):
-        if livro.codigo_isbn in self.livros:
-            return False  
-        self.livros[livro.codigo_isbn] = livro
+    def cadastrar_livro(self):
+        print("\n--- CADASTRO DE LIVRO ---")
+        titulo = input("Digite O Título: ")
+        autor = input("Digite O Autor: ")
+        try:
+            ano = int(input("Digite O Ano de Publicação: "))
+            isbn = int(input("Digite O Código ISBN: "))
+        except ValueError:
+            print("Erro: Ano e ISBN devem ser números inteiros.")
+            return False
+
+        if isbn in self.livros:
+            print("Erro: Já existe um livro cadastrado com este ISBN.")
+            return False
+            
+        novo_livro = Livro(titulo, autor, ano, isbn)
+        self.livros[novo_livro.codigo_isbn] = novo_livro
+        print("Livro cadastrado com sucesso!")
         return True
     
     def listar_livros(self):
-        return self.livros
-
-    def buscar_livro(self,titulo,autor):
-        for livro in self.livros.values():
-            if livro.titulo == titulo or livro.autor == autor:
-                return livro
-        return None
+        print("\n--- LISTA DE LIVROS ---")
+        if not self.livros:
+            print("Não Existe Nenhum Livro!")
+            return
         
+        for livro in self.livros.values():
+            print(livro)
+
+    def buscar_livro(self):
+        print("\n--- BUSCAR LIVRO ---")
+        termo = input("Digite o Título ou o Autor para buscar: ").lower()
+        encontrados = []
+        
+        for livro in self.livros.values():
+            if termo in livro.titulo.lower() or termo in livro.autor.lower():
+                encontrados.append(livro)
+                
+        if encontrados:
+            print("\nLivro(s) Encontrado(s):")
+            for livro in encontrados:
+                print(livro)
+        else:
+            print("\nNenhum livro correspondente foi encontrado.")
+
+    def ordenar_livros(self):
+        print("\n--- ORDENAR LIVROS ---")
+        if not self.livros:
+            print("Não há livros cadastrados para ordenar.")
+            return
+
+        criterio = input("Deseja ordenar por 'titulo', 'autor' ou 'ano'? ").lower()
+        livros_lista = list(self.livros.values())
+        
+        if criterio == "titulo":
+            livros_ordenados = sorted(livros_lista, key=lambda livro: livro.titulo.lower())
+        elif criterio == "autor":
+            livros_ordenados = sorted(livros_lista, key=lambda livro: livro.autor.lower())
+        elif criterio == "ano":
+            livros_ordenados = sorted(livros_lista, key=lambda livro: livro.ano_publicacao)
+        else:
+            print("Critério inválido. Tente novamente.")
+            return
+            
+        print(f"\nLivros ordenados por {criterio.capitalize()}:")
+        for livro in livros_ordenados:
+            print(livro)
+
+    def registrar_emprestimo(self):
+        print("\n--- REGISTRAR EMPRÉSTIMO ---")
+        try:
+            isbn = int(input("Digite o ISBN do livro: "))
+            if isbn in self.livros:
+                if self.livros[isbn].emprestar():
+                    print("Empréstimo realizado com sucesso!")
+                else:
+                    print("O livro já está emprestado no momento.")
+            else:
+                print("Livro não encontrado.")
+        except ValueError:
+            print("ISBN inválido. Digite apenas números.")
+
+    def registrar_devolucao(self):
+        print("\n--- REGISTRAR DEVOLUÇÃO ---")
+        try:
+            isbn = int(input("Digite o ISBN do livro: "))
+            if isbn in self.livros:
+                if self.livros[isbn].devolver():
+                    print("Devolução realizada com sucesso! O livro agora está disponível.")
+                else:
+                    print("Este livro já consta como disponível.")
+            else:
+                print("Livro não encontrado.")
+        except ValueError:
+            print("ISBN inválido. Digite apenas números.")
+
+    def iniciar_menu(self):
+        while True:
+            print("\n--Menu--")
+            print("[1] - Cadastrar Livro")
+            print("[2] - Listar Todos os Livros")
+            print("[3] - Buscar Livro (por Título ou Autor)")
+            print("[4] - Ordenar Livros")
+            print("[5] - Registrar Empréstimo")
+            print("[6] - Registrar Devolução")
+            print("[0] - Sair")
+
+            opcao = input("Escolha uma opção: ")
+            
+            if opcao == "1":
+                self.cadastrar_livro()
+            elif opcao == "2":
+                self.listar_livros()
+            elif opcao == "3":
+                self.buscar_livro()
+            elif opcao == "4":
+                self.ordenar_livros()
+            elif opcao == "5":
+                self.registrar_emprestimo()
+            elif opcao == "6":
+                self.registrar_devolucao()
+            elif opcao == "0":
+                print("\nSaindo do sistema... Até a próxima!")
+                break
+            else:
+                print("\nOpção inválida! Por favor, escolha um número entre 0 e 6.")
+
 
 class Livro:
     def __init__(self, titulo, autor, ano_publicacao, codigo_isbn):
@@ -49,8 +161,13 @@ class Livro:
         return False
 
     def __str__(self):
-        return f"{self.titulo} - {self.autor} ({self.ano_publicacao}) - {self.codigo_isbn} - Status: {self.status}"
+        return f"{self.titulo} - {self.autor} ({self.ano_publicacao}) [ISBN: {self.codigo_isbn}] - Status: {self.status}"
     
     def __repr__(self):
         return self.__str__()
 
+
+# Executar o menu
+if __name__ == "__main__":
+    biblioteca = Biblioteca()
+    biblioteca.iniciar_menu()
