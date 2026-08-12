@@ -109,36 +109,35 @@ class Biblioteca:
             print("ISBN inválido. Digite apenas números.")
 
     def iniciar_menu(self):
-        while True:
-            print("\n--Menu--")
-            print("[1] - Cadastrar Livro")
-            print("[2] - Listar Todos os Livros")
-            print("[3] - Buscar Livro (por Título ou Autor)")
-            print("[4] - Ordenar Livros")
-            print("[5] - Registrar Empréstimo")
-            print("[6] - Registrar Devolução")
-            print("[0] - Sair")
+            while True:
+                print("\n--Menu--")
+                print("[1] - Cadastrar Livro")
+                print("[2] - Listar Todos os Livros")
+                print("[3] - Buscar Livro (por Título ou Autor)")
+                print("[4] - Ordenar Livros")
+                print("[5] - Registrar Empréstimo")
+                print("[6] - Registrar Devolução")
+                print("[0] - Sair")
 
-            opcao = input("Escolha uma opção: ")
-            
-            if opcao == "1":
-                self.cadastrar_livro()
-            elif opcao == "2":
-                self.listar_livros()
-            elif opcao == "3":
-                self.buscar_livro()
-            elif opcao == "4":
-                self.ordenar_livros()
-            elif opcao == "5":
-                self.registrar_emprestimo()
-            elif opcao == "6":
-                self.registrar_devolucao()
-            elif opcao == "0":
-                print("\nSaindo do sistema... Até a próxima!")
-                break
-            else:
-                print("\nOpção inválida! Por favor, escolha um número entre 0 e 6.")
-
+                opcao = input("Escolha uma opção: ")
+                
+                if opcao == "1":
+                    self.cadastrar_livro()
+                elif opcao == "2":
+                    self.listar_livros()
+                elif opcao == "3":
+                    self.buscar_livro()
+                elif opcao == "4":
+                    self.ordenar_livros()
+                elif opcao == "5":
+                    self.registrar_emprestimo()
+                elif opcao == "6":
+                    self.registrar_devolucao()
+                elif opcao == "0":
+                    print("\nSaindo do sistema... Até a próxima!")
+                    break
+                else:
+                    print("\nOpção inválida! Por favor, escolha um número entre 0 e 6.")
 
 class Livro:
     def __init__(self, titulo, autor, ano_publicacao, codigo_isbn):
